@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+
+    <![endif]-->
+    <style>
+        .carinfo{
+            border: 1px solid blue;
+            border-radius: 4px;
+            margin-left: 100px;
+            width: 1200px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-3">
+            <h1 style="margin-left: 50px">
+                <a th:href="@{/index}" class="router-link-active">
+                    <span class="logo-name">index</span>
+                </a>
+            </h1>
+        </div>
+        <div class="col-md-6" style="margin-top: 20px">
+            <div class="navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="车票/订单/...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">搜索</button>
+                        </span>
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px" th:unless="${names}">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                <li role="presentation"><a href="#" th:href="@{/login}">登录</a></li>
+                <li role="presentation"><a href="#" th:href="@{/register}">注册</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px"  th:if="${names}">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                <img th:src="@{/static/picture/userimg.jpg}"  style="float: left;width: 50px;height: 50px;margin-left: 20px;margin-top: -5px">
+                <li role="presentation" ><a href="#" th:text="${names}"></a></li>
+                <li role="presentation" onclick="logout()"><a href="#" >注销</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="AllContactors">
+<div class="row carinfo" >
+    <div style="background: dodgerblue"><span style="margin-left: 20px;color: white;font-size: 20px">列车信息</span></div>
+
+    <div><span style="font-weight: bold;font-size: 18px;margin-left: 20px">
+        {{start_time}}&nbsp;&nbsp;&nbsp;车次：{{trainnum}}&nbsp;&nbsp;&nbsp;{{start_station}}&nbsp;->&nbsp;{{end_station}}</span>
+        <HR style=" border-top: 1px dashed red;margin-top: 5px" width="100%" >
+    </div>
+    <div>
+        <span >
+          <p style="margin-top: -15px;margin-left: 20px">
+              一等座(余票)：{{seatremain1}}&nbsp;&nbsp;&nbsp;二等座(余票)：{{seatremain2}}</p>
+        </span>
+    </div>
+</div>
+<br>
+
+<div class="row carinfo" >
+        <div style="background: dodgerblue"><span style="margin-left: 20px;color: white;font-size: 20px">乘客信息</span></div>
+        <div>
+            <span class="glyphicon glyphicon-user" style="margin-left: 20px">&nbsp;乘车人</span>
+            <br>
+            <span style="margin-left: 20px">
+                <label class="checkbox-inline" >
+                    <input type="checkbox"   name="check" @change="chooseperson(user_name.realname)"
+                           v-model="checknames" :value="user_name.realname">{{user_name.realname}}
+                </label>
+                <label class="checkbox-inline" v-for="contactor in contators">
+                    <input type="checkbox"   name="check" @change="chooseperson(contactor.name)"
+                           v-model="checknames" :value="contactor.name">{{contactor.name}}
+                </label>
+            </span>
+        </div>
+            <HR style=" border-top: 1px dashed red;margin-top: 5px" width="100%" >
+    <div style="margin-left:20px">
+        <table class="table">
+        <caption></caption>
+         <thead>
+         <tr>
+              <th>序号</th>
+              <th>票种</th>
+               <th>姓名</th>
+              <th>证件类型</th>
+               <th>证件号码</th>
+              <th>手机号码</th>
+              <th>价格</th>
+         </tr>
+          </thead>
+       <tbody>
+        <tr  v-for="(selectcontactor,index) in  selectcontactors">
+        <td>{{index+1}}</td>
+            <td><select class="form-control" @change="changetickettype($event,selectcontactor.name,index)">
+                <option v-for="item in items" :value="item.id">{{item.name}}</option>
+        </select></td>
+        <td>{{selectcontactor.name}}</td>
+            <td>中国居民身份证</td>
+        <td>{{selectcontactor.personid}}</td>
+        <td>{{selectcontactor.phonenum}}</td>
+            <td>{{selectcontactor.price}}</td>
+        </tr>
+        </tbody>
+       </table>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-4" ></div>
+    <button type="button" class="btn btn-primary" style="width:100px;margin-left: 70px">上一步</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-warning" style="width:100px;" @click="createorder">生成订单</button>
+</div>
+</div>
+<br>
+<div class="row carinfo" style="border: 1px solid red;background: bisque">
+     <span style="padding: 5px">
+         <p><span style="font-weight: bold;font-size: 15px">&nbsp;温馨提示:</span>
+             <br>
+&nbsp;1. 一张有效身份证件同一乘车日期同一车次只能购买一张车票，高铁动卧列车除外。
+            <br>
+&nbsp;2. 购票时可使用的有效身份证件包括：中华人民共和国居民身份证、港澳居民来往内地通行证、台湾居民来往大陆通行证和按规定可使用的有效护照。
+          <br>
+&nbsp;3. 购买儿童票时，乘车儿童有有效身份证件的，请填写本人有效身份证件信息。乘车儿童没有有效身份证件的，应使用同行成年人的有效身份证件信息；购票时不受第一条限制，但购票后、开车前须办理换票手续方可进站乘车。
+             <br>
+&nbsp;4. 购买学生票时，须在我的乘车人 中登记乘车人的学生详细信息。学生票乘车时间限为每年的暑假6月1日至9月30日、寒假12月1日至3月31日。购票后、开车前，须办理换票手续方可进站乘车。换票时，新生凭录取通知书，毕业生凭学校书面证明，其他凭学生优惠卡。
+               <br>
+&nbsp;5. 购买残疾军人（伤残警察）优待票的，须在购票后、开车前办理换票手续方可进站乘车。换票时，不符合规定的减价优待条件，没有有效"中华人民共和国残疾军人证"或"中华人民共和国伤残人民警察证"的，不予换票，所购车票按规定办理退票手续。
+               <br>
+&nbsp;6.购买铁路乘意险的注册用户年龄须在18周岁以上，使用非中国居民身份证注册的用户如购买铁路乘意险，须在我的12306——个人信息 如实填写“出生日期”。
+
+         </p>
+     </span>
+</div>
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue@2.7.0/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script>
+    new Vue({
+        el:'#AllContactors',
+        data(){
+            return{
+                user_name:{},
+                contators:{},
+                checknames:[],
+                selectcontactors:{},
+                start_station: "",
+                end_station: "",
+                start_time:"",
+                tripid:"",
+                items: [
+                    {id:1, name: '一等座'},
+                    {id:2, name: '二等座'},
+                ],
+                trainnum:"",
+                seatremain1:"",
+                seatremain2:"",
+            }
+        },
+        mounted(){
+            this.start_station=this.getparams("start");
+            this.end_station=this.getparams("end");
+            this.start_time=this.getparams("starttime");
+            this.tripid=this.getparams("tripid");
+            this.getremainseat();
+            this.getallcontactors();
+        },
+        methods:{
+            getallcontactors:function () {
+                axios
+                    .get("buyticket/getcontators")
+                    .then(response =>{
+                      //  var x=$("#usernamel").value;
+                        this.user_name=response.data["myuser"];
+                        this.contators=response.data["mycontactors"];
+                    })
+            },
+            getremainseat:function(){
+                var formdata=new FormData();
+                formdata.append("tripid",this.tripid);
+                formdata.append("start",this.start_station);
+                formdata.append("end",this.end_station);
+                axios
+                    .post("butticket/getremainseat",formdata)
+                    .then(response =>{
+                        this.trainnum=response.data["trainnum"];
+                        this.seatremain1=response.data["seatremain1"];
+                        this.seatremain2=response.data["seatremain2"];
+                    })
+            },
+            chooseperson:function (e) {
+
+                var m=this.checknames;
+                console.log(m);
+                //var m=["李四","江琴"];
+                let formdata1=new URLSearchParams();
+                formdata1.append("start",this.start_station);
+                formdata1.append("end",this.end_station);
+                formdata1.append("checknames",m);
+                formdata1.append("tripid",this.tripid);
+                    axios
+                        .post("buyticket/getchooseperson",formdata1)
+                        .then(response =>{
+                            this.selectcontactors=response.data;
+                            console.log(this.selectcontactors);
+                        })
+            },
+            changetickettype:function(e,person,index){
+                console.log(e.target.value) // 选择项的value
+                console.log(person+" "+index);
+                var indexofinput=e.target.value;
+                var indexinselectors=index;
+                var m=this.selectcontactors;
+                var dataform={
+                    "selectcontactors":JSON.stringify(m),
+                    "index1":indexofinput,
+                    "index2":indexinselectors,
+                    "start":this.start_station,
+                    "end":this.end_station,
+                }
+                axios
+                    .post("buyticket/selecttickettype",dataform,{headers: {'Content-Type':'application/json;charset=UTF-8'}})
+                    .then(response=>{
+                        this.selectcontactors=response.data;
+                        console.log(this.selectcontactors);
+                    })
+            },
+            createorder:function () {
+                var m=this.selectcontactors;
+                console.log(m);
+                console.log(JSON.stringify(m));
+                var dataform={
+                    "start":this.start_station,
+                    "end":this.end_station,
+                    "tripid":this.tripid,
+                    "selectcontactors":JSON.stringify(m),
+                }
+                axios
+                    .post("buyticket/createorder",dataform,{headers: {'Content-Type':'application/json;charset=UTF-8'}})       /*{headers: {'Content-Type': "multipart/form-data" }}*/
+                    .then(response =>{
+                        console.log("data",response.data);
+                        // if(response.data["status"]===1){
+                        //     alert("生成订单成功");}"buyticket/createorder"
+                        // else{
+                        //     alert("剩余座位不足");
+                        // }
+                        alert("下单成功，结果请去个人中心查看");
+                    })
+            },
+
+            getparams: function (name) {
+                var search = document.location.search;
+                var pattern = new RegExp("[?&]"+name+"\=([^&]+)", "g");
+                var matcher = pattern.exec(search);
+                var items = null;
+                if(null != matcher){
+                    try{
+                        items = decodeURIComponent(decodeURIComponent(matcher[1]));
+                    }catch(e){
+                        try{
+                            items = decodeURIComponent(matcher[1]);
+                        }catch(e){
+                            items = matcher[1];
+                        }
+                    }
+                }
+                return items;
+            },
+        }
+    })
+</script>
+<script type="text/javascript">
+    function logout() {
+        var url="/admin/logout";
+        var urlatnow=window.location.href;
+        $.post(url,null,function () {
+            window.location=urlatnow;
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+# 项目全局配置
+project:
+  # 项目名称
+  name: TrainBooking
+  serverUrl: http://localhost:8080
+
+
+# spring配置
+spring:
+  thymeleaf:
+    cache: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  session:
+    timeout: 3600S
+    redis:
+      namespace: train-booking:session
+
+  datasource:
+    name: booking
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/booking2?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root123
+    hikari:
+      connection-timeout: 0
+      # 最小空闲连接数量
+      minimum-idle: 3
+      # 连接池最大连接数，默认是10
+      maximum-pool-size: 10
+      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+      max-lifetime: 1800000
+
+#    type: com.alibaba.druid.pool.DruidDataSource
+  jpa:
+    hibernate:
+        #     更新或者创建数据表结构
+      ddl-auto: update
+      #    控制台显示SQL
+    show-sql: true
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      password:
+      connect-timeout: 5000ms
+      timeout: 5000ms
+      client-type: lettuce
+      repositories:
+        enabled: false
+    elasticsearch:
+      repositories:
+        enabled: false

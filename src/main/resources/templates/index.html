@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>-->
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+
+    <!--<script src="/webjars/axios/0.19.0/dist/axios.min.js"></script>
+       <script src="/webjars/vue/2.6.11/vue.min.js"></script>-->
+
+</head>
+
+<body>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-3">
+            <h1 style="margin-left: 50px">
+                <a th:href="@{/index}" class="router-link-active">
+                    <span class="logo-name">index</span>
+                </a>
+            </h1>
+        </div>
+        <div class="col-md-6" style="margin-top: 20px">
+            <div class="navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="车票/订单/...">
+                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">搜索</button>
+                        </span>
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px" th:unless="${names}">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                <li role="presentation"><a href="#" th:href="@{/login}">登录</a></li>
+                <li role="presentation"><a href="#" th:href="@{/register}">注册</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px" th:if="${names}">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                <img th:src="@{/static/picture/userimg.jpg}"
+                     style="float: left;width: 50px;height: 50px;margin-left: 20px;margin-top: -5px" alt="">
+                <li role="presentation"><a href="#" th:text="${names}"></a></li>
+                <li role="presentation" onclick="logout()"><a href="#">注销</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="SearchTrip">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6" id="search-form">
+            <div class="form-horizontal">
+                <h2 style="text-align: center;">查询车票</h2>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">出发地</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" v-model="start_station">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">目的地</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" v-model="end_station">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="date" class="col-md-3 control-label">日期</label>
+                    <div class="col-md-6">
+                        <input type="date" class="form-control" id="date" v-model="start_time">
+                    </div>
+                </div>
+                <div class="form-group" style="padding-left: 350px;">
+                    <div class="col-md-2" style="text-align: center;">
+                        <button type="submit" class="btn btn-warning" @click="getTrips">查询</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+<hr/>
+
+<!--    <div class="row" >-->
+
+<!--        <div class="col-md-3">-->
+<!--            <a href="https://www.ctrip.com/" class="thumbnail">-->
+<!--                <img src="/static/picture/05e15ea8-3c92-47c1-be1b-327c50929675.jpg" alt="..." style="width: 600px;height: 200px">-->
+<!--                <p class="new-name">“环西部火车游”高品质旅游版高品质列车</p>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--            <div class="col-md-3">-->
+<!--            <a href="https://www.ctrip.com/" class="thumbnail">-->
+<!--                <img src="/static/picture/8366175c-7e08-43f4-930f-95c8999d1700.jpeg" alt="..." style="width: 600px;height: 200px">-->
+<!--                <p class="new-name">“环西部火车游”高品质旅游版高品质列车</p>-->
+<!--            </a>-->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--            <a href="https://www.ctrip.com/" class="thumbnail">-->
+<!--                <img src="/static/picture/770a8322-f683-4ff3-98f8-10dcc14a081e.jpg" alt="..." style="width: 600px;height: 200px">-->
+<!--                <p class="new-name">“环西部火车游”高品质旅游版高品质列车</p>-->
+<!--            </a>-->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--            <a href="https://www.ctrip.com/" class="thumbnail">-->
+<!--                <img src="/static/picture/24ad836e-edc5-4cf1-b7cd-2f6eaf36879d.jpg" alt="..." style="width: 600px;height: 200px">-->
+<!--                <p class="new-name">“环西部火车游”高品质旅游版高品质列车</p>-->
+<!--            </a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue@2.7.0/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script>
+    new Vue({
+        el: "#SearchTrip",
+        data() {
+            return {
+                start_station: "",
+                end_station: "",
+                start_time: "",
+            }
+        },
+        methods: {
+            //修改信息
+            getTrips: function () {
+                console.log(this.start_station + this.end_station);
+                axios.get("http://localhost:8080/api/gettrip")
+                    .then(response => {
+                        var start = this.start_station;
+                        var end = this.end_station;
+                        var time = this.start_time;
+                        console.log(start);
+                        var createNewTab = window.open('about:blank', '_blank');
+                        setTimeout(function () {
+                            createNewTab.location.href = "/search?starttime=" + time + "&start=" + start + "&end=" + end;
+                        }, 100);
+                    })
+            }
+        }
+
+    });
+
+</script>
+<style>
+    #search-form {
+        border: 1px solid blueviolet;
+    }
+
+    #news {
+        padding: 20px;
+    }
+
+    .new-name {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    html, body {
+        height: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+
+    html {
+        overflow-y: scroll;
+    }
+</style>
+
+
+<br>
+
+</body>
+
+</html>

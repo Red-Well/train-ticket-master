@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>注册界面</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-3">
+            <h1 style="margin-left: 50px">
+                <a th:href="@{/login}" class="router-link-active">
+                    <span class="logo-name">index</span>
+                </a>
+            </h1>
+        </div>
+        <div class="col-md-6" style="margin-top: 20px">
+            <div class="navbar-search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="车票/订单/...">
+                    <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">搜索</button>
+                        </span>
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#">个人中心</a></li>
+                <li role="presentation"><a href="#">登录</a></li>
+                <li role="presentation"><a href="#">注册</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title" style="text-align: center">账户信息</h1>
+                </div>
+                <br>
+                <br>
+                <form method="post" action="/register">
+                    <div class="input-group input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon1">&nbsp;用户名&nbsp;&nbsp;</span>
+                        <input type="text" class="form-control" name="name" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon2">登录密码</span>
+                        <input type="password" class="form-control" name="password" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon3">确认密码</span>
+                        <input type="password" class="form-control" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon4">证件类型</span>
+                        <select name="cardType" class="form-control">
+                            <option>中国居民身份证</option>
+                            <option>外国人永久居留身份证</option>
+                            <option>港澳台居民居住证</option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                    <span class="input-group-addon"
+                          id="basic-addon5">&nbsp;&nbsp;&nbsp;&nbsp;姓名&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <input type="text" class="form-control" name="realname" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon6">证件号码</span>
+                        <input type="text" class="form-control" name="personId" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                    <span class="input-group-addon"
+                          id="basic-addon7">&nbsp;&nbsp;&nbsp;&nbsp;邮箱&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <input type="text" class="form-control" name="email" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon8">手机号码</span>
+                        <input type="text" class="form-control" name="phonenum" aria-describedby="basic-addon1">
+                    </div>
+                    <br>
+                    <br>
+
+                    <div class="input-group  input-group-lg" style="margin-left: 20px;margin-right: 20px;">
+                        <span class="input-group-addon" id="basic-addon9">旅客类型</span>
+                        <select name="personType" class="form-control">
+                            <option>成人</option>
+                            <option>学生</option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <label class="checkbox-inline" style="margin-left: 100px;font-size: 15px">
+                        <input type="checkbox" value="option1" style="display: inline-block;width: 15px;height: 15px">
+                        <p style="margin-top: 2px">我已阅读并同意遵守 《中国铁路客户服务中心网站服务条款》 《隐私权政策》</p>
+                    </label>
+                    <br>
+                    <br>
+                    <div style="text-align: center">
+                        <a href="login.html">
+                            <button type="submit" class="btn btn-primary btn-lg" style="margin: 25px">注册</button>
+                        </a>
+                        <a href="login.html">
+                            <button type="button" class="btn btn-primary btn-lg" style="margin: 25px">返回</button>
+                        </a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-3">
+                <h1 style="margin-left: 50px">
+                    <a th:href="@{/index}" class="router-link-active">
+                        <span class="logo-name">index</span>
+                    </a>
+                </h1>
+            </div>
+            <div class="col-md-6" style="margin-top: -10px">
+                <div class="navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="车票/订单/...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">搜索</button>
+                        </span>
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px" th:unless="${names}">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                    <li role="presentation"><a href="#" th:href="@{/login}">登录</a></li>
+                    <li role="presentation"><a href="#" th:href="@{/register}">注册</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-3" style="margin-top: 15px ; padding-left: 50px" th:if="${names}">
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href="#" th:href="@{/pcenter}">个人中心</a></li>
+                    <img th:src="@{/static/picture/userimg.jpg}"
+                         style="float: left;width: 50px;height: 50px;margin-left: 20px;margin-top: -5px">
+                    <li role="presentation"><a href="#" th:text="${names}"></a></li>
+                    <li role="presentation" onclick="logout()"><a href="#">注销</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+    <el-main>
+        <el-row class="row-1" style="padding: 20px;">
+            <el-col :span="6">
+                <span style="margin-left: 20px">出发地</span>
+                <el-input placeholder="出发地" class="search-1">
+                    <i slot="suffix" class="el-input__icon el-icon-location-information"></i>
+                </el-input>
+            </el-col>
+
+            </el-col>
+            <el-col :span="6">
+                <span style="">目的地</span>
+                <el-input placeholder="目的地" class="search-1">
+                    <i slot="suffix" class="el-input__icon el-icon-location"></i>
+                </el-input>
+            </el-col>
+            <el-col :span="6">
+                <span style="">日期</span>
+                <el-input placeholder="日期" class="search-1">
+                    <i slot="suffix" class="el-input__icon el-icon-date"></i>
+                </el-input>
+            </el-col>
+            <el-col :span="2">
+                <div style="margin-top: -5px">
+
+                    <label><input name="type-check" type="radio" />普通 </label>
+                    <br>
+                    <label><input name="type-check" type="radio" />学生 </label>
+                </div>
+            </el-col>
+            <el-col :span="2">
+                <el-button type="warning" class="search-btn" >查询</el-button>
+            </el-col>
+        </el-row>
+        <br>
+        <el-row class="row-1">
+            <el-tabs type="border-card">
+                <el-tab-pane label="周一">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周二">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周三">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周四">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周五">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周六">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+                <el-tab-pane label="周日">
+                    <span>车次类型 &nbsp;</span>
+                    <el-checkbox label="G-高铁"></el-checkbox>
+                    <el-checkbox label="D-动车"></el-checkbox>
+                    <el-checkbox label="T-特快"></el-checkbox>
+                    <el-checkbox label="Z-直达"></el-checkbox>
+                    <el-checkbox label="其他"></el-checkbox>
+
+                    <br>
+                    <br>
+                    <span>出发车站 &nbsp;</span>
+                    <el-checkbox label="南站"></el-checkbox>
+                    <el-checkbox label="西站"></el-checkbox>
+                    <el-checkbox label="东站"></el-checkbox>
+                    <el-checkbox label="北站"></el-checkbox>
+                </el-tab-pane>
+            </el-tabs>
+        </el-row>
+        <br>
+        <span style="font-size: 12px;margin-left: 100px">
+            共{{size}}个搜索结果
+        </span>
+        <el-row class="row-1">
+            <table class="table table-striped">
+                <caption></caption>
+                <thead>
+                <tr>
+                    <th><span style="margin-left: 20px">车次</span></th>
+                    <th>出发站</th>
+                    <th>到达站</th>
+                    <th>出发时间</th>
+                    <th>到达时间</th>
+                    <th>历时</th>
+                    <th>一等座</th>
+                    <th>二等座</th>
+                    <th>一等座票价</th>
+                    <th>二等座票价</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="trip in gettrips">
+                    <td><span style="margin-left: 20px">{{trip.tripNumber}}</span></td>
+                    <td>{{trip.startStation}}</td>
+                    <td>{{trip.endStation}}</td>
+                    <td>{{trip.startTime}}</td>
+                    <td>{{trip.endTime}}</td>
+                    <td>{{trip.spendTime}}</td>
+                    <td>{{trip.seatFirstRemain}}</td>
+                    <td>{{trip.seatSecondRemain}}</td>
+                    <td>{{trip.fareFirst}}</td>
+                    <td>{{trip.fareSecond}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" @click="buytheTicket(trip.tripId)">预定</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </el-row>
+    </el-main>
+</div>
+
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue@2.7.0/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui@2.15.13/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                gettrips:{},
+                start_station: "",
+                end_station: "",
+                start_time:"",
+                size:"",
+                trainnum:"",
+            }
+        },
+        mounted(){
+            this.start_station=this.getparams("start");
+            this.end_station=this.getparams("end");
+            this.start_time=this.getparams("starttime");
+            console.log(this.start_station+" "+this.end_station+" "+this.start_time);
+            this.getTrips();
+        },
+        methods:{
+            getparams: function (name) {
+                var search = document.location.search;
+                var pattern = new RegExp("[?&]"+name+"\=([^&]+)", "g");
+                var matcher = pattern.exec(search);
+                var items = null;
+                if(null != matcher){
+                    try{
+                        items = decodeURIComponent(decodeURIComponent(matcher[1]));
+                    }catch(e){
+                        try{
+                            items = decodeURIComponent(matcher[1]);
+                        }catch(e){
+                            items = matcher[1];
+                        }
+                    }
+                }
+                return items;
+            },
+            getTrips:function () {
+                let param = new URLSearchParams();
+                param.append("start",this.start_station);
+                param.append("end",this.end_station);
+                param.append("time",this.start_time);
+                axios.post("http://localhost:8080/api/index/getTrips", param)
+                    .then(response => {
+                        this.gettrips= response.data["searchTrips"];
+                        this.size = response.data["sum"];
+                        console.log("data",this.gettrips);
+                    })
+            },
+            buytheTicket:function (tripid1) {
+                var createNewTab = window.open('about:blank', '_blank');
+                var tripid=tripid1;
+                var time=this.start_time;
+                var start=this.start_station;
+                var end=this.end_station;
+                setTimeout(function() {
+                    createNewTab.location.href = "/buyTicket?tripid="+tripid+"&starttime="+time+"&start="+start+"&end="+end;
+                }, 100);
+            },
+        }
+    })
+</script>
+
+<script type="text/javascript">
+    function logout() {
+        var url = "/admin/logout";
+        $.post(url, null, function () {
+            window.location = '/search';
+        });
+    }
+</script>
+<style>
+    body {
+        margin: 0px;
+    }
+
+    .navbar-search {
+        margin-top: 30px;
+    }
+
+    .navber-links {
+        margin-top: 19.5px;
+    }
+
+    .search-1 {
+        margin-top: -5px;
+        width: 200px;
+    }
+
+    .search-btn {
+        margin-top: -5px;
+        margin-left: 10px;
+        width: 100px;
+    }
+
+    .row-1 {
+        margin-left: 100px;
+        border: 1px solid blue;
+        border-radius: 4px;
+        width: 80%;
+    }
+
+    .el-menu {
+        border-bottom: 0px !important;
+    }
+
+    .el-menu-item {
+        border-bottom-color: #ffffff !important;
+    }
+</style>
+</html>
